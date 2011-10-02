@@ -125,33 +125,37 @@ const eq   = '==';
 		//Melhorar a legibilidade através da idade
 		improveReadabilityThroughAge:function(){
 		
-			var arrayAges = [30,40,50,60];
-			var arrayCalculateFont = [1.1, 1.2, 1.3, 1.4];
-			var arrayCalculateLine = [1.3, 1.4, 1.5, 1.6];
+			var arrayAges = [30,40,50,60], arrayCalculateFont = [1.1, 1.2, 1.3, 1.4], arrayCalculateLine = [1.3, 1.4, 1.5, 1.6];
 			
-			$('html, div, p, a').each(function(i){
-				var currentFontSize  = $(this).css('font-size');
-				var currentLineHeight  = $(this).css('line-height');
-				
-				var currentFontSizeNum = parseFloat(currentFontSize, 10);
-				var currentLineHeightNum = parseFloat(currentLineHeight, 10);
-				
-				var tam = arrayAges.length;
-				var newFontSize, newLineHeight, i = 0;
-				
-				for (i=0;i<=tam;i++){
-					if(arrayAges[i] > $.uc.getAge(){
-						newFontSize = currentFontSizeNum * arrayCalculateFont[i-1];
-						newLineHeight = currentLineHeightNum * arrayCalculateLine[i-1];
-						i = tam + 1;
+			var tam = arrayAges.length;
+			var newFontSize  = 0, newLineHeight = 0, x = 0;
+			
+				for (x = 0 ; x < tam ; x++){
+					if(arrayAges[x] > $.uc.getAge()){
+						newFontSize = arrayCalculateFont[x-1];
+						newLineHeight = arrayCalculateLine[x-1];
+						x = tam + 1;
 					}
 				}
-				
-				
-				
-				$(this).css('font-size', newFontSize+"px");
-				$(this).css('line-height', newLineHeight+"px");
-			});
+			//Se os valores indefinidos , quer dizer que o usuário tem idade menor que 30
+				if(newFontSize != undefined && newLineHeight != undefined){
+
+					$('html, div, p, a, span').each(function(i){
+						var currentFontSize  = $(this).css('font-size');
+						var currentLineHeight  = $(this).css('line-height');
+						
+						var currentFontSizeNum = parseFloat(currentFontSize, 10);
+						var currentLineHeightNum = parseFloat(currentLineHeight, 10);
+						
+						//alert("Current Font-size: "+currentFontSizeNum+"\nCurrent Line-height: "+currentLineHeightNum);
+						
+						currentFontSizeNum = currentFontSizeNum * newFontSize;		
+						currentLineHeightNum =	currentLineHeightNum * newLineHeight;
+							
+						$(this).css('font-size', currentFontSizeNum+"px");
+						$(this).css('line-height', currentLineHeightNum+"px");
+					});
+				}
 		},
 			
 	}//Fim UsabilityContent
