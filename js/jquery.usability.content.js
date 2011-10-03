@@ -152,23 +152,24 @@
 		
 		blockingInappropriateContent:function(){
 	
-			var arrayWords = ['porn','xvideos'];
-		
-			var description = $('meta[name=description]').attr("content").toLowerCase();
-			var keywords = $('meta[name=keywords]').attr("content").toLowerCase();
+			if($.uc.getAge() < 18){
+				var arrayWords = ['porn','xvideos'];
 			
-			var arrayKeywords = keywords.split(',');
-			var tam  = arrayKeywords.length;
-			
-			var x = 0;
-			
-			for (x = 0 ; x < tam ; x++){
-				if (new RegExp('^(' + arrayWords.join('|') + ')$').test(arrayKeywords[x])){
-					$.uc.insertBlock();
-					x = tam + 1;
-				}			
+				var description = $('meta[name=description]').attr("content").toLowerCase();
+				var keywords = $('meta[name=keywords]').attr("content").toLowerCase();
+				
+				var arrayKeywords = keywords.split(',');
+				var tam  = arrayKeywords.length;
+				
+				var x = 0;
+				
+				for (x = 0 ; x < tam ; x++){
+					if (new RegExp('^(' + arrayWords.join('|') + ')$').test(arrayKeywords[x])){
+						$.uc.insertBlock();
+						x = tam + 1;
+					}			
+				}
 			}
-
 		},
 		
 		insertBlock:function(){
