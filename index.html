@@ -28,6 +28,7 @@
 					'age': 16,
 					'gender': 'male'
 				});
+			//$.uc.showContentByAgeThroughTag();
 			//$.uc.showContentByGenderThroughTag();
 			//$.uc.improveReadabilityThroughAge();
 			$.uc.blockingInappropriateContent();
@@ -52,6 +53,8 @@
 			  assert($.uc).should(respondTo, "showContentByGenderThroughClass");
 			  assert($.uc).should(respondTo, "showContentByGenderThroughTag");
 			  assert($.uc).should(respondTo, "showContentByAgeThroughTag");
+			  assert($.uc).should(respondTo, "improveReadabilityThroughAge");
+			  assert($.uc).should(respondTo, "blockingInappropriateContent");
 			  assert($.uc).shouldNot(respondTo, "showBlaNaoExiste");
 		  });		
 
