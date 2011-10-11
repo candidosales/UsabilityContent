@@ -9,8 +9,17 @@
  *
  * Date: Wed Apr 31 11:38:23 2011 -0400
  */
-
+ 
 (function($){
+
+	$.fn.showContentByGenderAndAge = function (options) {
+		if(options){
+			if(options.age)
+				this.attr('age',options.age);
+			if(options.gender)
+				this.attr('gender',options.gender);
+		}
+	}
 	
 	jQuery.uc = {
 		//Idade do usuário
@@ -106,9 +115,8 @@
 		//Apresenta o Conteúdo de acordo com a idade e condição na tag específicada
 		showContentByAgeThroughTag:function(){
 			$('*[age]').each(function(i){
-				$(this).css('background','red');
 				if($(this).attr('age')!="" && $(this).attr('age')!='null'){
-					//alert("Idade: "+$.uc.getAge()+"\nTexto: "+$.uc.getAge()+$(this).attr('age')+"\n Eval: "+eval($.uc.getAge()+$(this).attr('age')));
+					alert("Idade: "+$.uc.getAge()+"\nTexto: "+$.uc.getAge()+$(this).attr('age')+"\n Eval: "+eval($.uc.getAge()+$(this).attr('age')));
 					if(!eval($.uc.getAge()+$(this).attr('age'))){
 						$(this).remove();
 					}
@@ -171,7 +179,7 @@
 				}
 			}
 		},
-		
+
 		insertBlock:function(){
 		
 			$('body').prepend($('<div id="blocking" style="line-height:42px;margin: -10px 0 0;width:100%;height:100%;z-index:999;background:#000;padding:12% 0 0 0;font-weight:bold;color:#fff;text-align:center;display:none;clear:both;position: absolute;overflow:hidden;font-size:30px;">'+
