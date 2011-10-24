@@ -1,0 +1,96 @@
+<!--
+Copyright (c) 2009 The Chromium Authors. All rights reserved. Use of this
+source code is governed by a BSD-style license that can be found in the
+LICENSE file.
+-->
+
+<html>
+<head>
+<script>
+var selectedId = -1;
+var storageIsClean = false;
+
+function refreshLanguage() {
+	//Limpar o localstorage
+	clearStorage();
+
+	//Verificar se a url é válida
+	chrome.tabs.get(selectedId, function(tab) {
+		if(tab.url != 'chrome://newtab/'){
+		
+			if(localStorage["tab-"+selectedId] == null){
+				chrome.tabs.executeScript(selectedId, {file:"content_script.js"});
+				
+				var detailsTab = {'id': selectedId, 'url': tab.url, 'blockContent': false};
+				
+				//Alterar o valor, para o script não seja executado mais de uma vez na mesma tab
+				localStorage.setItem("tab-"+selectedId, JSON.stringify(detailsTab));
+
+				console.log('Executou o script em: '+tab.url);
+			}else{
+				console.log('O script já foi executado em: '+tab.url);
+			}
+		}else{
+			console.error('URL vazia ou Nova tab, página não existe');
+		}
+	});
+
+	//
+	//if(localStorage["tab-"+selectedId] == null){
+		//chrome.tabs.executeScript(selectedId, {file:"content_script.js"});
+		//
+		//alert('nao existe, tem q executar o script');
+	//}//else{
+		//alert('ele existe, já foi executado');
+	//}
+	
+	//chrome.tabs.get(selectedId, function(){
+	
+
+		/*chrome.tabs.getAllInWindow(null, function(tabs){
+		  tabs.forEach(function(tab){
+			chrome.tabs.executeScript(tab.id, { code: "alert('Hello World')" });
+		  });
+		});*/
+
+		
+
+}
+
+chrome.tabs.onUpdated.addListener(function(tabId, props) {
+  if (props.status == "complete" && tabId == selectedId)
+    refreshLanguage();
+});
+
+chrome.tabs.onSelectionChanged.addListener(function(tabId, props) {
+  selectedId = tabId;
+  refreshLanguage();
+});
+
+chrome.tabs.getSelected(null, function(tab) {
+  selectedId = tab.id;
+  refreshLanguage();
+});
+
+function listAllItems(){ 
+	var text = '';
+ 
+    for (i=0; i<=localStorage.length-1; i++)  
+    {  
+        key = localStorage.key(i);  
+        val = localStorage.getItem(key);  
+		text = text+' key: '+key+' val:'+val+'\n';
+    }  
+	
+	alert(text);
+}  
+
+function clearStorage(){
+	if(false == storageIsClean){
+		localStorage.clear();
+		storageIsClean = true;
+	}
+} 
+</script>
+</head>
+</html>

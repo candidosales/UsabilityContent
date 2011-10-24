@@ -1,0 +1,202 @@
+ <html>
+    <head>
+	    <script src="scripts/constants.js"></script>
+		<script src="scripts/jquery-1.6.1.min.js"></script>
+    	<script src="scripts/underscore-min.js"></script>
+    	<script src="scripts/fbhelper.js"></script>
+ 	<link rel="stylesheet" type="text/css" href="styles/style.css" />
+
+    	  <script type="text/javascript">
+	  		 			
+			//ui.js
+			function showActiveIcon() {
+			  chrome.browserAction.setIcon({ path: '../images/icon16.png'});
+			}
+
+			function showInactiveIcon() {
+			  chrome.browserAction.setIcon({ path: '../images/icon16_gray.png'});
+			}
+			
+			//background.js
+			function isLoggedIn() {
+			  return FB.getSession();
+			}
+			
+			function login(session) {
+			  $('#debug').append('<p>2.Entrou no login</p>');  						
+			  setupProcess = 2;
+			  localStorage.session = JSON.stringify(session);
+			  localStorage.logged_in = 'true';
+			  
+			  FB.Auth.setSession(session, 'connected');
+			  
+			  //Recuperar todos os dados do usuario	
+			 user.uid = FB.getSession().uid;
+			 fbHelper.showDetails(user.uid);
+			 fbHelper.accessTokenUC();
+			 
+			 fbHelper.graph();
+			 //fbHelper.session();
+			 
+			}
+			function logout() {
+			  setupProcess = 0;
+			  localStorage.logged_in = 'false';
+			  // Clear the cache
+			  cache = emptyCache;
+			  user = emptyUser;
+			  FB.Auth.setSession(null, 'notConnected');
+			}
+
+			function onLogin(cb) {
+			  FB.Event.subscribe('auth.login', function() {
+			    console.log("Now logged in");
+			    cb();
+			  });
+			  if(FB.getSession()) {
+			    console.log("Already logged in", FB.getSession());
+			    cb();
+			  }
+			}
+
+			function onLogout(cb) {
+			  FB.Event.subscribe('auth.logout', function() {
+			    cb();
+			  });
+			  if(!FB.getSession()) {
+			    cb();
+			  }
+			}
+
+			
+			function checkForSuccessPage() {
+				$('#debug').append('<p>4.Entrou no checkForSuccessPage</p>'); 
+			  if(!isLoggedIn()) {
+			    chrome.tabs.getAllInWindow(null, function(tabs) {
+			      for(var i = 0; i < tabs.length; i++) {
+					if(tabs[i].url.indexOf(successURL) == 0) {
+					  // We found a match, now extract the login info and actually login
+					  var params = tabs[i].url.split('?')[1].split('&');
+					  var session = JSON.parse(unescape(params[0].split('=')[1]));
+					  login(session);
+					  chrome.tabs.onUpdated.removeListener(checkForSuccessPage);
+					  return;
+					}
+			      }
+			    });
+			  }
+			}
+			
+			function checkNotificationsAndInbox() {
+			  if(isLoggedIn()) {
+			    getNotifications(true, false, function(notifications, apps) {
+			      console.log('updating notifications');
+			      getInbox(true, false, function(threads, people) {
+				console.log('updating inbox');
+				var count = 0;
+				for(var i = 0; i < notifications.length; i++) {
+				  if(notifications[i].is_unread) {
+				    count++;
+				  }
+				}
+				for(var i = 0; i < threads.length; i++) {
+				  if(threads[i].unread > 0) {
+				    count++;
+				  }
+				}
+				if(count != 0) {
+				  chrome.browserAction.setBadgeText({text: count + ""});
+				} else {
+				  chrome.browserAction.setBadgeText({text: ""});
+				}
+			      });
+			    });
+			  }
+
+			  timeout = setTimeout("checkNotificationsAndInbox()", refreshTime);
+			}
+			
+			function setupLoginLogoutHandlers() {
+			
+			  $('#debug').append('<p>3.Entrou no setupLoginLogout</p>');
+				
+			  FB.Event.clear('auth.login');
+			  FB.Event.clear('auth.logout');
+
+			  onLogout(function() {
+			    chrome.tabs.onUpdated.addListener(checkForSuccessPage);
+			    checkForSuccessPage();
+			    showInactiveIcon();
+			  });
+
+			  onLogin(function() {
+			    showActiveIcon();
+			  });
+
+			  checkNotificationsAndInbox();
+			}
+			
+						
+		//Notificação
+		  function notificationShow() {
+			/*var time = /(..)(:..)/(Date());              // The prettyprinted time.
+			var hour = time[1] % 12 || 12;               // The prettyprinted hour.
+			var period = time[1] < 12 ? 'a.m.' : 'p.m.'; // The period of the day.*/
+			var notification = webkitNotifications.createNotification(
+			  'icon48.png',                      // The image.
+			  'UsabilityContent', // The title.
+			  'Você está usando no plugin UsabilityContent'      // The body.
+			);
+			notification.show();
+		  }
+
+	  </script>
+    </head>
+    <body style="border:none; width:450px; height:480px">
+    
+    <div id="fb-root"></div>
+    <script src="js/core.debug.js"></script>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>  
+    <script>
+	  $(document).ready(function() {
+			//Se estiver logado, apresente minha foto
+	    	if(isLoggedIn()) {			
+			}
+			
+	    	$('#debug').append('<p>1.Entrou no document.ready</p>');
+			
+	    	//notificationShow();
+			
+			if(localStorage.logged_in == 'true') {
+				login(JSON.parse(localStorage.session));
+			}
+
+		  setupLoginLogoutHandlers();
+	    	  
+			  //Função do botão de login do Facebook
+	    	$('#login-btn').click(function() {
+	  		 	localStorage['tab'] = '#stream';
+	  		 	background.setupProcess = 1;
+	  		 	chrome.tabs.create({ url: loginURL });
+	  		});
+	  });
+   </script>
+     
+      
+      <div id="login">
+      	<p>Para você utilizar este aplicativo, antes clique </p>
+      	 <div id="login-btn-div"><span class="login-btn" id="login-btn"><span id="login-text">Login to Facebook</span></span></div>
+      </div>
+      <div id="profile-pic" style="display:none"></div>
+      
+	  <div id="display" style="display:none"></div>
+	  
+      <div id="debug" style="display:block">
+		<p class="debug">Debug</p>
+	  </div>
+	  <div id="json" style="display:block">
+		<p class="json">JSON</p>
+	  </div>
+
+    </body>
+ </html>

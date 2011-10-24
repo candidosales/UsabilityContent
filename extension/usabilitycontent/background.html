@@ -1,0 +1,170 @@
+<html>
+<head>
+	<script src="scripts/jquery-1.6.1.min.js"></script>
+    <script src="scripts/constants.js"></script>
+    <script src="scripts/underscore-min.js"></script>
+    <script src="scripts/ui.js"></script>
+    <script src="scripts/fbhelper.js"></script>
+      	  <script type="text/javascript">
+			
+			//background.js
+			function isLoggedIn() {
+			  return FB.getSession();
+			}
+			function login(session) {
+			  						
+			  setupProcess = 2;
+			  localStorage.session = JSON.stringify(session);
+			  localStorage.logged_in = 'true';
+			  
+			  FB.Auth.setSession(session, 'connected');
+			  user.uid = FB.getSession().uid;
+			}
+			function logout() {
+			  setupProcess = 0;
+			  localStorage.logged_in = 'false';
+			  // Clear the cache
+			  cache = emptyCache;
+			  user = emptyUser;
+			  FB.Auth.setSession(null, 'notConnected');
+			}
+
+			function onLogin(cb) {
+			  FB.Event.subscribe('auth.login', function() {
+			    console.log("Now logged in");
+			    cb();
+			  });
+			  if(FB.getSession()) {
+			    console.log("Already logged in", FB.getSession());
+			    cb();
+			  }
+			}
+
+			function onLogout(cb) {
+			  FB.Event.subscribe('auth.logout', function() {
+			    cb();
+			  });
+			  if(!FB.getSession()) {
+			    cb();
+			  }
+			}
+			
+			function uid() {
+			  // Assumed to only be called when logged in
+			  return FB.getSession().uid;
+			}
+			
+			function getNotifications(refresh, active, cb) {
+			  if(active && start) start();
+			  if(refresh || (!refresh && (new Date()).valueOf() - cache.notifications.lastUpdated > refreshTime)) {
+			    FB.api({
+			      method: 'fql.multiquery',
+			      queries:
+				{ notifications: 'SELECT notification_id, href, title_text, app_id, created_time, is_unread FROM notification WHERE recipient_id=' + uid(),
+				  apps: 'SELECT app_id, icon_url FROM application WHERE app_id IN (SELECT app_id FROM #notifications)'
+				}
+			    },
+			    function(result) {
+			      var notifications = result[0].fql_result_set;
+			      var appsArray = result[1].fql_result_set;
+			      var apps = _.reduce(appsArray, {}, function(appDict, app) {
+				appDict[app.app_id] = app;
+				return appDict;
+			      });
+			      cache.notifications.lastUpdated = (new Date()).valueOf();
+			      cache.notifications.notifications = notifications;
+			      cache.notifications.apps = apps;
+			      if(active && end) end();
+			      cb(notifications, apps);
+			    });
+			  } else {
+			    if(active && end) end();
+			    cb(cache.notifications.notifications, cache.notifications.apps);
+			  }
+			}
+
+			
+			function checkForSuccessPage() {
+			  if(!isLoggedIn()) {
+			  
+			    chrome.tabs.getAllInWindow(null, function(tabs) {
+			      for(var i = 0; i < tabs.length; i++) {
+				if(tabs[i].url.indexOf(successURL) == 0) {
+				  // We found a match, now extract the login info and actually login
+				  var params = tabs[i].url.split('?')[1].split('&');
+				  var session = JSON.parse(unescape(params[0].split('=')[1]));
+				  login(session);
+				  chrome.tabs.onUpdated.removeListener(checkForSuccessPage);
+				  return;
+				}
+			      }
+			    });
+			  }
+			}
+			
+			function checkNotificationsAndInbox() {
+			  if(isLoggedIn()) {
+			    getNotifications(true, false, function(notifications, apps) {
+			      console.log('updating notifications');
+			      getInbox(true, false, function(threads, people) {
+				console.log('updating inbox');
+				var count = 0;
+				for(var i = 0; i < notifications.length; i++) {
+				  if(notifications[i].is_unread) {
+				    count++;
+				  }
+				}
+				for(var i = 0; i < threads.length; i++) {
+				  if(threads[i].unread > 0) {
+				    count++;
+				  }
+				}
+				if(count != 0) {
+				  chrome.browserAction.setBadgeText({text: count + ""});
+				} else {
+				  chrome.browserAction.setBadgeText({text: ""});
+				}
+			      });
+			    });
+			  }
+
+			  timeout = setTimeout("checkNotificationsAndInbox()", refreshTime);
+			}
+			
+			function setupLoginLogoutHandlers() {
+
+			  FB.Event.clear('auth.login');
+			  FB.Event.clear('auth.logout');
+
+			  onLogout(function() {
+			    chrome.tabs.onUpdated.addListener(checkForSuccessPage);
+			    checkForSuccessPage();
+			    showInactiveIcon();
+			  });
+
+			  onLogin(function() {
+			    showActiveIcon();
+			  });
+
+			  checkNotificationsAndInbox();
+			}
+
+
+	  </script>
+</head>
+<body>
+  <div id="fb-root"></div>
+   <script src="scripts/core.debug.js"></script>
+  <script>
+  $(document).ready(function() {
+    	fbHelper.init(appId,fb_canvas_page_url,fb_canvas_url);
+    	
+    	  if(localStorage.logged_in == 'true') {
+		    login(JSON.parse(localStorage.session));
+		  }
+
+		  setupLoginLogoutHandlers();
+    });
+  </script>
+</body>
+</html>

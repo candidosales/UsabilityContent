@@ -1,0 +1,62 @@
+p{font-size:14px;color:#3b5998;font-family:'Lucida Grande',Tahoma,Verdana,Arial,sans-serif}
+#display{background:#edeff4;padding:10px;font-size:10px}
+#display img{float:left;padding:0px 10px 10px 0px}
+#display p{line-height:10px;font-size:10px}
+
+/*=debug
+_______________________________*/
+#debug{background:#37db79;padding:10px;}
+#debug p.debug{font-size:12px;padding-bottom:10px;border-bottom:1px solid #228a4c}
+#debug p.pad-lft{padding-left:10px;color:#228a4c}
+#debug p.pad-lft-2{padding-left:20px;color:#00b74a}
+#debug p.pad-lft-3{padding-left:30px;color:#63db93;-webkit-text-shadow:1px 1px 1px #000;text-shadow:1px 1px 1px #000}
+#debug p{font-size:10px;line-height:10px;font-weight:bold;color:#007730}
+
+/*=json
+_______________________________*/
+#json{background:#ffc500;padding:10px;}
+#json p.json{font-size:12px;padding-bottom:10px;border-bottom:1px solid #a68000}
+#json p{font-size:10px;line-height:10px;font-weight:bold;color:#a68000}
+
+#login-btn-div {
+  margin: 15px auto;
+  display: block;
+  width: 140px;
+}
+
+span.login-btn:active {
+  background-position:left -210px
+}
+
+span.login-btn:active span{
+  border-bottom:solid 1px #29447e;border-top:solid 1px #45619d;background:#4f6aa3;text-shadow:none
+}
+
+span.login-btn {
+  -webkit-box-shadow: rgba(0,0,0, 0.0976562) 0px 1px 0px 0px;
+  background-color: #29447E;
+  background-image: url(../images/connect_sprite.png);
+  display: inline-block;
+  width: 150px;
+  font-size: 11px;
+  padding-left: 1px;
+  background-position: 0% -188px;
+  color: white;
+  font-weight: bold;
+}
+
+span.login-btn span {
+  background-image: url(../images/connect_sprite.png);
+  border-bottom: #29447E solid 1px;
+  border-top: #879AC0 solid 1px;
+  display: block;
+  height: 14px;
+  margin-left: 21px;
+  margin-right: 1px;
+  margin-top: 1px;
+  padding-bottom: 3px;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 2px;
+  cursor:pointer;
+}

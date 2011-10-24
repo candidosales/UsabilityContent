@@ -1,0 +1,23 @@
+{
+  "name": "UsabilityContent",
+  "options_page": "options.html",
+  "version": "1.5",
+  "background_page": "background.html",
+  "description": "Extensão que permiti visualizar o layout de uma página web de acordo com o sexo do usuário. Já contém o debug no seu código.
+					Fix 02: Reconhecer o usuário logado automaticamente",
+  "icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png" },
+  "browser_action": {
+    "default_icon": "icon16.png",
+	"default_title": "UsabilityContent",
+    "popup": "popup.html"
+  },
+  "permissions": [
+    "tabs", 
+	"http://*.facebook.com/*",
+	"https://graph.facebook.com/*",
+	"http://usability.vendepublicidade.com.br/*",
+	"notifications"
+  ]
+}
