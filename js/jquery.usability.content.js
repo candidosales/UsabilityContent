@@ -9,7 +9,7 @@
  *
  * Date: Wed Apr 31 11:38:23 2011 -0400
  */
- 
+
 (function($){
 
 	$.fn.showContentByGenderAndAge = function (options) {
@@ -161,21 +161,31 @@
 		blockingInappropriateContent:function(){
 	
 			if($.uc.getAge() < 18){
-				var arrayWords = ['porn','xvideos'];
-			
-				var description = $('meta[name=description]').attr("content").toLowerCase();
+				var arrayWords = ['xvideos','xvideos.com','porn','porno','sexo','anal'];
+				
 				var keywords = $('meta[name=keywords]').attr("content").toLowerCase();
+				var title = $('title').text().toLowerCase();
 				
 				var arrayKeywords = keywords.split(',');
 				var tam  = arrayKeywords.length;
-				
+
 				var x = 0;
 				
-				for (x = 0 ; x < tam ; x++){
-					if (new RegExp('^(' + arrayWords.join('|') + ')$').test(arrayKeywords[x])){
-						$.uc.insertBlock();
-						x = tam + 1;
-					}			
+				//Se o elemento ainda não foi inserido, vamos forçar a inserção
+				var forcarBloqueio = true;
+				while(forcarBloqueio){
+					if ($('#blocking').length == 0){
+						for (x = 0 ; x < tam ; x++){
+							if (new RegExp('^(' + arrayWords.join('|') + ')$').test(arrayKeywords[x])){
+								$.uc.insertBlock();
+								x = tam + 1;
+							}else{
+								forcarBloqueio =  false;
+							}			
+						}
+					}else{
+						forcarBloqueio =  false;
+					}
 				}
 			}
 		},
