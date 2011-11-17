@@ -16,14 +16,14 @@
 				tmo=(now.getMonth());
 				tyr=(now.getFullYear());
 
-			{
+			
 				if((tmo > bmo)||(tmo==bmo & tday>=bday)){
 					age=byr
 				}else{
 					age=byr+1
 				}
 				alert("As of today, "+now+' \n'+", you are:"+(tyr-age)+ " years old");
-			}
+			
 		}
 		
 		calculateAge('03/22/1990');

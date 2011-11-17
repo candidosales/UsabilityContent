@@ -127,7 +127,7 @@
 		//Melhorar a legibilidade através da idade
 		improveReadabilityThroughAge:function(){
 
-			var arrayAges = [30,35,40,45,50,55,60], arrayCalculateFont = [1.1, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16], arrayCalculateLine = [1.3, 1.31, 1.32, 1.33,1.34, 1.35, 1.36];
+			var arrayAges = [30,35,40,45,50,55,60], arrayCalculateFont = [1.1, 1.12, 1.14, 1.16, 1.18, 1.20, 1.22], arrayCalculateLine = [1.3, 1.31, 1.32, 1.33,1.34, 1.35, 1.36];
 			var tam = arrayAges.length;
 			var newFontSize  = 0, newLineHeight = 0, x = 0;
 			
@@ -160,14 +160,20 @@
 		blockingInappropriateContent:function(){
 	
 			if($.uc.getAge() < 18){
-				var arrayWords = ['xvideos','xvideos.com','porn','porno','sexo','anal'];
+				var arrayWords = ['sexo','xvideos','xvideos.com','porn','porno','anal'];
 				
 				var keywords = $('meta[name=keywords]').attr("content").toLowerCase();
 				var title = $('title').text().toLowerCase();
 				
 				var arrayKeywords = keywords.split(',');
 				var tam  = arrayKeywords.length;
-
+				
+				//Se o tamanho for 1, quer dizer que é separado por espaços
+				if(tam==1){
+					arrayKeywords = keywords.split(' ');
+					tam  = arrayKeywords.length;
+				}				
+							
 				var x = 0;
 				
 				//Se o elemento ainda não foi inserido, vamos forçar a inserção
@@ -176,6 +182,7 @@
 					if ($('#blocking').length == 0){
 						for (x = 0 ; x < tam ; x++){
 							if (new RegExp('^(' + arrayWords.join('|') + ')$').test(arrayKeywords[x])){
+				
 								$.uc.insertBlock();
 								x = tam + 1;
 							}else{
