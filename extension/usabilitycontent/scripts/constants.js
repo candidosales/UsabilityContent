@@ -19,8 +19,8 @@ var appSecret = '47ad502677c2d31eaf133b205a68e974';
 var appId = '193626643996325';
 var successURL = 'http://usability.vendepublicidade.com.br';
 var cancelURL = 'http://www.facebook.com/connect/login_failure.html';
-var permissions = 'user_about_me,user_likes,email,publish_stream,status_update,user_birthday,user_location,user_work_history';
-var fb_canvas_page_url = 'http://apps.facebook.com/usabilitycandido/';
+var permissions = 'user_about_me,user_likes,email,publish_stream,status_update,user_birthday,user_location,user_work_history,offline_access';
+var fb_canvas_page_url = 'http://apps.facebook.com/usabilitycontent/';
 var fb_canvas_url = 'http://usability.vendepublicidade.com.br/';
 
 var accessToken = 'https://graph.facebook.com/oauth/access_token?client_id='+appId+
