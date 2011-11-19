@@ -141,7 +141,7 @@
 			//Se os valores indefinidos , quer dizer que o usuário tem idade menor que 30
 				if(newFontSize != undefined && newLineHeight != undefined){
 
-					$('div, p, a, span').each(function(i){
+					$('a, p, span, font').each(function(i){
 
 						var currentFontSizeNum = parseFloat($(this).css('font-size'), 10);
 						var currentLineHeightNum = parseFloat($(this).css('line-height'), 10);
