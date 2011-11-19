@@ -1,6 +1,6 @@
 <html>
 <head>
-	<script src="scripts/jquery-1.6.1.min.js"></script>
+	<script src="jquery-1.7.min.js"></script>
     <script src="scripts/constants.js"></script>
     <script src="scripts/underscore-min.js"></script>
     <script src="scripts/ui.js"></script>
@@ -88,7 +88,8 @@
 			  if(!isLoggedIn()) {
 			  
 			    chrome.tabs.getAllInWindow(null, function(tabs) {
-			      for(var i = 0; i < tabs.length; i++) {
+					var tam = tabs.length;
+			      for(var i = 0; i < tam; i++) {
 				if(tabs[i].url.indexOf(successURL) == 0) {
 				  // We found a match, now extract the login info and actually login
 				  var params = tabs[i].url.split('?')[1].split('&');
@@ -109,12 +110,14 @@
 			      getInbox(true, false, function(threads, people) {
 				console.log('updating inbox');
 				var count = 0;
-				for(var i = 0; i < notifications.length; i++) {
+				var tam = notifications.length;
+				for(var i = 0; i < tam; i++) {
 				  if(notifications[i].is_unread) {
 				    count++;
 				  }
 				}
-				for(var i = 0; i < threads.length; i++) {
+				var tam2 = threads.length;
+				for(var i = 0; i < tam2; i++) {
 				  if(threads[i].unread > 0) {
 				    count++;
 				  }

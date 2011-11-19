@@ -56,7 +56,6 @@
 			  type: "POST",
 			  async: false,
 			  success: function(data){
-			  
 				$('#debug').append('<p class="pad-lft-2">4.1.Entrou no fbHelper.graphUC Ajax</p>'); 
 				$('#json').append('<p class="pad-lft-2"> ID: '+data.id+'</p>'+
 								  '<p class="pad-lft-2"> Aniversario: '+data.birthday+'</p>'+
@@ -79,17 +78,15 @@
 			var url = "https://graph.facebook.com/"+idFb+"?access_token="+accessTokenFb+" ";
 			
 			$('#debug').append('<p class="pad-lft-2">5.1.Entrou no fbHelper.graph URL: '+url+'</p>');
-			
+		
 			$.ajax({
 			  url: url,
 			  dataType: "json",
 			  type: "GET",
 			  async: false,
 			  success: function(data){
-			  			  
-				window.console.log(data);
 				var age = fbHelper.calculateAge(data.birthday);
-			  
+				
 				$('#debug').append('<p class="pad-lft-2">5.1.Entrou no fbHelper.graph Ajax</p>'); 
 				$('#json').append('<p class="pad-lft-2"> ID: '+data.id+'</p>'+
 								  '<p class="pad-lft-2"> Aniversario: '+data.birthday+'</p>'+
@@ -131,7 +128,27 @@
 			  }
 			});
 		},
-				
+			
+		calculateAge: function(dateOfBirth){
+			var array = dateOfBirth.split("/");
+			var bday=parseInt(array[1]);
+			var bmo=parseInt(array[0]);
+			var byr=parseInt(array[2]);
+			var byr;
+			var age;
+				var now = new Date();
+				tday=now.getDate();
+				tmo=(now.getMonth());
+				tyr=(now.getFullYear());
+
+			
+				if((tmo > bmo)||(tmo==bmo & tday>=bday)){
+					age=byr
+				}else{
+					age=byr+1
+				}
+				return (tyr-age);
+		},
 		
 		//Garantir que o usuário está logado e tem permissão necessária
 		
@@ -289,29 +306,6 @@
 				}
 			});
 			
-		},
-		
-		calculateAge:function(dateOfBirth){
-			var array = dateOfBirth.split("/");
-			var bday=parseInt(array[1]);
-			var bmo=parseInt(array[0]);
-			var byr=parseInt(array[2]);
-			var byr;
-			var age;
-				var now = new Date();
-				tday=now.getDate();
-				tmo=(now.getMonth());
-				tyr=(now.getFullYear());
-
-			{
-				if((tmo > bmo)||(tmo==bmo & tday>=bday)){
-					age=byr
-				}else{
-					age=byr+1
-				}
-				//alert("As of today, "+now+' \n'+", you are:"+(tyr-age)+ " years old");
-				return tyr-age;
-			}
 		}
 	
 	}
