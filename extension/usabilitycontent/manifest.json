@@ -1,9 +1,9 @@
 {
-  "name": "UsabilityCandido",
+  "name": "UsabilityContent",
   "options_page": "options.html",
   "version": "1.5.5",
   "background_page": "background.html",
-  "description": "Extensão que permiti visualizar o layout de uma página web de acordo com o sexo do usuário. Já contém o debug no seu código.
+  "description": "Extensão que permiti visualizar o layout de uma página web de acordo com o sexo e idade do usuário. Já contém o debug no seu código.
 					Fix 02: Reconhecer o usuário logado automaticamente",
   "icons": { "16": "icon16.png",
            "48": "icon48.png",
