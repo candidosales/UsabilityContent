@@ -1,4 +1,4 @@
 		$.uc.init({
-			'age': 50,
+			'age': 10,
 			'gender': 'male'
 		});

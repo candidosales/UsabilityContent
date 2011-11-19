@@ -1,0 +1,129 @@
+.Linha {
+	border-top-color: #FFFFFF;
+}
+.Conteudo {
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 10px; 
+	text-decoration: none; 
+	color: #000033; 
+	text-align: justify
+}
+.ConteudoTitulo
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-decoration: underline;
+	color: #000033;
+	text-align: justify;
+	font-weight: bold;
+
+}
+.ConteudoTitulo_
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	text-decoration: none;
+	color: #000033;
+	text-align: justify;
+	font-weight: bold;
+}
+.Fundo {
+	background-attachment: fixed;
+	background-image: url(../imagens/fundo.jpg);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+}
+
+.Links {
+	color: #000033;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	text-decoration: none;
+}
+a.Links:hover {
+	background-color: #000033;
+	color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.MenuCimaLinks {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000033;
+	text-decoration: none;
+	border-Bottom-color: #000033;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+
+}
+a.MenuCimaLinks:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: underline;
+	background-color: #000033;
+}
+.MenuLadoLinks {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #FFFFFF;
+	text-decoration: none;
+	font-weight: bold;
+}
+a.MenuLadoLinks:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: bold;
+	color: #000033;
+	text-decoration: underline;
+	background-color: #ffffff;
+}
+.ConteudoDATA {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+}
+.TituloPagina {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	text-decoration: none;
+	background-color: #000066;
+	background-position: right;
+	font-weight: bold;
+	text-align: right;
+
+}
+.LinhaBaixo {
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #000033;
+
+}
+.LinksDestaque {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000033;
+	text-decoration: none;
+	background-color: #FFCC00;
+
+}
+legend.ConteudoTitulo_
+{
+	background-color:#D6E0FF;
+	border:none;
+	border-bottom:solid windowtext .5pt;
+	color: #000033;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	padding:0cm 3.5pt 0cm 3.5pt;
+	text-align: justify;
+	text-decoration: none;
+}
