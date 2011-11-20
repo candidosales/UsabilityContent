@@ -116,7 +116,7 @@
 		showContentByAgeThroughTag:function(){
 			$('*[age]').each(function(i){
 				if($(this).attr('age')!="" && $(this).attr('age')!='null'){
-					alert("Idade: "+$.uc.getAge()+"\nTexto: "+$.uc.getAge()+$(this).attr('age')+"\n Eval: "+eval($.uc.getAge()+$(this).attr('age')));
+					//alert("Idade: "+$.uc.getAge()+"\nTexto: "+$.uc.getAge()+$(this).attr('age')+"\n Eval: "+eval($.uc.getAge()+$(this).attr('age')));
 					if(!eval($.uc.getAge()+$(this).attr('age'))){
 						$(this).remove();
 					}
